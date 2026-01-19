@@ -277,10 +277,11 @@
             newsGrid.innerHTML = "";
 
             if (data) {
-                const posts = Object.values(data).reverse();
-                posts.forEach(post => {
+                // Përdorim Object.keys().reverse() që lajmi i fundit të dalë i pari
+                Object.keys(data).reverse().forEach(key => {
+                    const post = data[key];
                     const card = `
-                        <article class="card">
+                        <article class="card" onclick="window.location.href='lajmi.html?id=${key}'">
                             <img src="${post.foto}" alt="${post.titulli}">
                             <div class="card-content">
                                 <span class="badge">${post.kategoria}</span>

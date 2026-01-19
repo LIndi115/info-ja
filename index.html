@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="INFO-JA: Portali juaj i besueshëm për lajmet e fundit.">
+    <title>INFO-JA | Lajmi që t'duhet</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --magenta: #e5007d;
+            --dark: #121212;
+            --light: #ffffff;
+            --gray: #f2f2f2;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        /* Banneri AdSense Lart */
+        .ad-banner-top {
+            width: 100%;
+            background: #fafafa;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .ad-placeholder {
+            display: inline-block;
+            width: 728px;
+            height: 90px;
+            background: #ebebeb;
+            line-height: 90px;
+            color: #999;
+            font-size: 11px;
+            border: 1px dashed #bbb;
+        }
+
+        header {
+            background: #fff;
+            padding: 15px 5%;
+            border-bottom: 4px solid var(--magenta);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* LOGOJA E RREGULLUAR SI NE FOTO */
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            text-decoration: none;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            letter-spacing: -2px;
+        }
+
+        .logo-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--magenta); /* Rrethi roze */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-left: 5px;
+            color: var(--magenta); /* JA roze */
+            background: transparent;
+        }
+
+        .logo-circle span {
+            font-size: 30px;
+            letter-spacing: -1px;
+            margin-top: -2px;
+        }
+
+        /* Search Bar Modeli i Ri */
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: var(--gray);
+            padding: 5px 15px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+        }
+
+        .search-container input {
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 8px;
+            font-size: 14px;
+            width: 150px;
+            transition: width 0.4s;
+        }
+
+        .search-container input:focus {
+            width: 250px;
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        nav a:hover { color: var(--magenta); }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=80&w=1000') center/cover;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 50px; margin: 0; text-transform: uppercase; }
+        .hero p { font-size: 20px; color: var(--magenta); margin-top: 10px; font-weight: bold; }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            padding: 40px 5%;
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 1px solid #eee;
+        }
+
+        .card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+
+        .card-content { padding: 20px; }
+
+        .badge {
+            background: var(--magenta);
+            color: white;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .card-content h3 { margin: 0 0 10px 0; font-size: 22px; line-height: 1.2; }
+
+        /* Sidebar AdSense */
+        .sidebar-ad {
+            position: sticky;
+            top: 100px;
+        }
+        .ad-box-sidebar {
+            width: 300px;
+            height: 600px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-size: 12px;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #333;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-grid a { color: #aaa; text-decoration: none; font-size: 14px; font-weight: bold; }
+        .footer-grid a:hover { color: var(--magenta); }
+
+        @media (max-width: 1000px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar-ad { display: none; }
+            .ad-placeholder { width: 95%; }
+            .logo { font-size: 28px; }
+            .logo-circle { width: 50px; height: 50px; }
+            .logo-circle span { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ad-banner-top">
+        <div class="ad-placeholder">REKLAMË NGA GOOGLE (728x90)</div>
+    </div>
+
+    <header>
+        <a href="#" class="logo">
+            INFO-<div class="logo-circle"><span>JA</span></div>
+        </a>
+        
+        <nav>
+            <ul>
+                <li><a href="#">Politikë</a></li>
+                <li><a href="#">Ekonomi</a></li>
+                <li><a href="#">Showbiz</a></li>
+                <li><a href="#">Sport</a></li>
+            </ul>
+        </nav>
+
+        <form class="search-container">
+            <input type="text" placeholder="Kërko lajme...">
+            <button type="submit" class="search-btn">🔍</button>
+        </form>
+    </header>
+
+    <section class="hero">
+        <h1>LAJMI QË T'DUHET</h1>
+        <p>infoja.com</p>
+    </section>
+
+    <div class="container">
+        <main class="news-grid">
+            <article class="card">
+                <img src="https://via.placeholder.com/500x300" alt="Lajmi">
+                <div class="card-content">
+                    <span class="badge">POLITIKË</span>
+                    <h3>Ekskluzive: Çfarë pritet të ndodhë me reformat e reja</h3>
+                    <p>Detajet e plota rreth analizës së fundit që po diskutohet në qarqet zyrtare...</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://via.placeholder.com/500x300" alt="Lajmi">
+                <div class="card-content">
+                    <span class="badge">TEKNOLOGJI</span>
+                    <h3>Gjenerata e re e telefonave inteligjentë</h3>
+                    <p>Zbuloni inovacionet që do të ndryshojnë mënyrën si komunikojmë çdo ditë...</p>
+                </div>
+            </article>
+            
+            <article class="card">
+                <img src="https://via.placeholder.com/500x300" alt="Lajmi">
+                <div class="card-content">
+                    <span class="badge">SHOWBIZ</span>
+                    <h3>Prapaskenat e festivalit më të madh në rajon</h3>
+                    <p>Gjithçka që nuk u pa në kamera gjatë natës magjike të performancave...</p>
+                </div>
+            </article>
+        </main>
+
+        <aside class="sidebar-ad">
+            <div style="margin-bottom: 10px; font-size: 10px; color: #999; text-align: center;">REKLAMË</div>
+            <div class="ad-box-sidebar">AD UNIT (300x600)</div>
+        </aside>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Cookies</a>
+            <a href="#">Kushtet e Përdorimit</a>
+            <a href="#">Rreth Nesh</a>
+            <a href="#">Kontakti</a>
+        </div>
+        <center>
+            <p style="color: #666; font-size: 13px;">&copy; 2026 <strong>INFO-JA</strong>. Të gjitha të drejtat e rezervuara. | <strong>infoja.com</strong></p>
+        </center>
+    </footer>
+
+</body>
+</html>

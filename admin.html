@@ -21,19 +21,28 @@
 
         /* Main Content */
         .main-content { margin-left: 260px; padding: 40px; width: 100%; box-sizing: border-box; }
-        .card-form { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 800px; margin: auto; }
-        .card-form h2 { margin-top: 0; color: var(--dark); border-left: 5px solid var(--magenta); padding-left: 15px; margin-bottom: 25px; }
+        .card-form, .manage-section { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); max-width: 900px; margin: 0 auto 40px auto; }
+        
+        h2 { margin-top: 0; color: var(--dark); border-left: 5px solid var(--magenta); padding-left: 15px; margin-bottom: 25px; }
         
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: bold; color: #444; }
-        input[type="text"], input[type="file"], input[type="url"], select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; outline: none; }
-        input:focus, textarea:focus { border-color: var(--magenta); }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
         
-        .btn-post { background: var(--magenta); color: white; border: none; padding: 15px 30px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; width: 100%; margin-top: 10px; }
+        /* Butoni Publiko */
+        .btn-post { background: var(--magenta); color: white; border: none; padding: 15px 30px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; width: 100%; transition: 0.3s; }
         .btn-post:hover { background: #c4006b; }
         .btn-post:disabled { background: #666; cursor: not-allowed; }
 
-        #statusMsg { margin-top: 15px; text-align: center; font-weight: bold; }
+        /* Tabela e Menaxhimit */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f9f9f9; color: #666; font-size: 12px; text-transform: uppercase; }
+        .btn-delete { background: #ff4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-delete:hover { background: #cc0000; }
+        .img-preview { width: 60px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
+        
+        #statusText { text-align: center; font-weight: bold; margin-top: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -42,25 +51,24 @@
         <a href="index.html" class="logo-admin">INFO-<div class="logo-circle"><span>JA</span></div></a>
         <ul class="nav-links">
             <li><a href="index.html">🌐 Shiko Web-in</a></li>
-            <li><a href="#">📊 Dashboard</a></li>
-            <li><a href="#">📰 Lajmet e Mia</a></li>
-            <li><a href="#" style="color: #ff4444; margin-top: 20px;">🚪 Dil</a></li>
+            <li><a href="#manage-area">📑 Menaxho Lajmet</a></li>
+            <li><a href="#" style="color: #ff4444; margin-top: 30px;">🚪 Dil</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="card-form">
-            <h2>Shto një lajm të ri</h2>
+            <h2>Shto Lajm të Ri</h2>
             <form id="newsForm">
                 <div class="form-group">
                     <label>Titulli i Lajmit</label>
-                    <input type="text" id="title" placeholder="Shkruaj titullin e lajmit..." required>
+                    <input type="text" id="title" placeholder="Shkruaj titullin..." required>
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div class="form-group">
-                        <label>Autori</label>
-                        <input type="text" id="author" placeholder="Emri i gazetarit..." required>
+                        <label>Gazetari (Autori)</label>
+                        <input type="text" id="author" placeholder="Emri juaj..." required>
                     </div>
                     <div class="form-group">
                         <label>Kategoria</label>
@@ -74,37 +82,52 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Ngarko Foto (nga kompjuter/telefon)</label>
+                <div class="form-group" style="background: #fdf2f8; padding: 15px; border-radius: 8px; border: 1px dashed var(--magenta);">
+                    <label style="color: var(--magenta);">📁 Ngarko Foto nga Pajisja (Kompjuter/Telefon)</label>
                     <input type="file" id="fileInput" accept="image/*">
                 </div>
 
                 <div class="form-group">
                     <label>Ose Linku i Fotos (URL)</label>
-                    <input type="url" id="imageUrl" placeholder="https://ekujt.com/foto.jpg">
+                    <input type="url" id="imageUrl" placeholder="https://...">
                 </div>
 
                 <div class="form-group">
-                    <label>Linku i Videos (YouTube - Opsionale)</label>
+                    <label>Linku i Videos (YouTube)</label>
                     <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
                 </div>
 
                 <div class="form-group">
-                    <label>Përmbajtja e plotë e lajmit</label>
-                    <textarea id="content" rows="10" placeholder="Shkruaj tekstin këtu..." required></textarea>
+                    <label>Përmbajtja e Lajmit</label>
+                    <textarea id="content" rows="8" placeholder="Shkruaj lajmin këtu..." required></textarea>
                 </div>
 
                 <button type="submit" class="btn-post" id="publishBtn">PUBLIKO LAJMIN</button>
-                <div id="statusMsg"></div>
+                <div id="statusText"></div>
             </form>
+        </div>
+
+        <div class="manage-section" id="manage-area">
+            <h2>Menaxho Lajmet</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Titulli</th>
+                        <th>Kategoria</th>
+                        <th>Veprimi</th>
+                    </tr>
+                </thead>
+                <tbody id="newsTableBody">
+                    </tbody>
+            </table>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Konfigurimi i Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBh_7BwfNbKbscPSW1ZN9Y_UvAntsjl9Wg",
             authDomain: "herolind-6ca5f.firebaseapp.com",
@@ -117,24 +140,53 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        
-        // API Key yt që dërgove
-        const imgbbAPI = "eb62a6907856c805db10887e57fa34ea"; 
+        const imgbbAPI = "eb62a6907856c805db10887e57fa34ea"; // API Key yt
 
+        // 1. LISTIMI I LAJMEVE
+        onValue(ref(db, 'lajmet'), (snapshot) => {
+            const tableBody = document.getElementById('newsTableBody');
+            tableBody.innerHTML = "";
+            const data = snapshot.val();
+            
+            if (data) {
+                Object.keys(data).reverse().forEach(key => {
+                    const post = data[key];
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td><img src="${post.foto}" class="img-preview"></td>
+                            <td><div style="font-weight:bold; font-size:13px; max-width:250px;">${post.titulli}</div></td>
+                            <td><small>${post.kategoria}</small></td>
+                            <td><button class="btn-delete" onclick="deleteNews('${key}')">Fshije</button></td>
+                        </tr>
+                    `;
+                });
+            } else {
+                tableBody.innerHTML = "<tr><td colspan='4'>Nuk ka lajme në databazë.</td></tr>";
+            }
+        });
+
+        // 2. FSHIRJA E LAJMIT
+        window.deleteNews = (id) => {
+            if (confirm("A jeni i sigurt? Lajmi do të fshihet përgjithmonë.")) {
+                remove(ref(db, 'lajmet/' + id)).then(() => alert("Lajmi u fshi!"));
+            }
+        };
+
+        // 3. SHTIMI I LAJMIT ME FOTO NGA PAJISJA
         document.getElementById('newsForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('publishBtn');
-            const status = document.getElementById('statusMsg');
+            const status = document.getElementById('statusText');
             const fileInput = document.getElementById('fileInput');
             
             btn.disabled = true;
             btn.innerText = "Duke u procesuar...";
-            status.innerText = "Duke ngarkuar foton në server...";
+            status.innerText = "Duke ngarkuar të dhënat...";
             status.style.color = "blue";
 
             let finalImageUrl = document.getElementById('imageUrl').value;
 
-            // Procesi i ngarkimit të fotos
+            // Ngarkimi i fotos nese eshte zgjedhur skedari
             if (fileInput.files.length > 0) {
                 const formData = new FormData();
                 formData.append("image", fileInput.files[0]);
@@ -145,52 +197,43 @@
                         body: formData
                     });
                     const result = await response.json();
-                    
                     if (result.success) {
                         finalImageUrl = result.data.url;
                     } else {
-                        throw new Error(result.error.message);
+                        throw new Error("ImgBB dështoi");
                     }
                 } catch (error) {
-                    alert("GABIM IMGBB: " + error.message);
+                    alert("Gabim gjatë ngarkimit të fotos nga pajisja.");
                     btn.disabled = false;
                     btn.innerText = "PUBLIKO LAJMIN";
-                    status.innerText = "";
                     return;
                 }
             }
 
             if (!finalImageUrl) {
-                alert("Ju lutem ngarkoni një foto ose vendosni një link URL!");
+                alert("Ju lutem ngarkoni një foto!");
                 btn.disabled = false;
-                btn.innerText = "PUBLIKO LAJMIN";
                 return;
             }
 
-            // Ruajtja në Firebase
-            try {
-                status.innerText = "Duke ruajtur lajmin në databazë...";
-                await push(ref(db, 'lajmet'), {
-                    titulli: document.getElementById('title').value,
-                    autori: document.getElementById('author').value,
-                    kategoria: document.getElementById('category').value,
-                    foto: finalImageUrl,
-                    video: document.getElementById('videoUrl').value,
-                    pershkrimi: document.getElementById('content').value,
-                    data: new Date().toLocaleDateString('sq-AL'),
-                    timestamp: Date.now()
-                });
-
-                status.innerText = "SUKSES! Lajmi u publikua.";
+            // Ruajtja ne Firebase
+            push(ref(db, 'lajmet'), {
+                titulli: document.getElementById('title').value,
+                autori: document.getElementById('author').value,
+                kategoria: document.getElementById('category').value,
+                foto: finalImageUrl,
+                video: document.getElementById('videoUrl').value || "",
+                pershkrimi: document.getElementById('content').value,
+                data: new Date().toLocaleDateString('sq-AL'),
+                timestamp: Date.now()
+            }).then(() => {
+                status.innerText = "Lajmi u publikua me sukses!";
                 status.style.color = "green";
                 document.getElementById('newsForm').reset();
-            } catch (error) {
-                alert("GABIM FIREBASE: " + error.message);
-            } finally {
                 btn.disabled = false;
                 btn.innerText = "PUBLIKO LAJMIN";
                 setTimeout(() => { status.innerText = ""; }, 3000);
-            }
+            });
         });
     </script>
 </body>

@@ -185,11 +185,12 @@
             border-radius: 50px;
             display: inline-block;
             margin-bottom: 10px;
+            text-transform: uppercase;
         }
 
-        .card-content h3 { margin: 0 0 10px 0; font-size: 22px; line-height: 1.2; }
+        .card-content h3 { margin: 0 0 10px 0; font-size: 22px; line-height: 1.2; color: var(--dark); }
+        .card-content p { color: #555; font-size: 14px; line-height: 1.5; }
 
-        /* Sidebar AdSense */
         .sidebar-ad {
             position: sticky;
             top: 100px;
@@ -243,7 +244,7 @@
     </div>
 
     <header>
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
             INFO-<div class="logo-circle"><span>JA</span></div>
         </a>
         
@@ -268,33 +269,8 @@
     </section>
 
     <div class="container">
-        <main class="news-grid">
-            <article class="card">
-                <img src="https://via.placeholder.com/500x300" alt="Lajmi">
-                <div class="card-content">
-                    <span class="badge">POLITIKË</span>
-                    <h3>Ekskluzive: Çfarë pritet të ndodhë me reformat e reja</h3>
-                    <p>Detajet e plota rreth analizës së fundit që po diskutohet në qarqet zyrtare...</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="https://via.placeholder.com/500x300" alt="Lajmi">
-                <div class="card-content">
-                    <span class="badge">TEKNOLOGJI</span>
-                    <h3>Gjenerata e re e telefonave inteligjentë</h3>
-                    <p>Zbuloni inovacionet që do të ndryshojnë mënyrën si komunikojmë çdo ditë...</p>
-                </div>
-            </article>
-            
-            <article class="card">
-                <img src="https://via.placeholder.com/500x300" alt="Lajmi">
-                <div class="card-content">
-                    <span class="badge">SHOWBIZ</span>
-                    <h3>Prapaskenat e festivalit më të madh në rajon</h3>
-                    <p>Gjithçka që nuk u pa në kamera gjatë natës magjike të performancave...</p>
-                </div>
-            </article>
+        <main class="news-grid" id="newsGrid">
+            <p style="text-align: center; grid-column: 1/-1;">Duke ngarkuar lajmet e fundit...</p>
         </main>
 
         <aside class="sidebar-ad">
@@ -316,5 +292,52 @@
         </center>
     </footer>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBh_7BwfNbKbscPSW1ZN9Y_UvAntsjl9Wg",
+            authDomain: "herolind-6ca5f.firebaseapp.com",
+            databaseURL: "https://herolind-6ca5f-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "herolind-6ca5f",
+            storageBucket: "herolind-6ca5f.firebasestorage.app",
+            messagingSenderId: "893085364638",
+            appId: "1:893085364638:web:2db59e6ec72ad7e7c1a68f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const newsGrid = document.getElementById('newsGrid');
+
+        // Leximi i lajmeve
+        const newsRef = ref(db, 'lajmet');
+        onValue(newsRef, (snapshot) => {
+            const data = snapshot.val();
+            newsGrid.innerHTML = ""; // Fshin mesazhin "Loading"
+
+            if (data) {
+                // I kthejme ne array dhe i rreshtojme nga me i riu te me i vjetri
+                const posts = Object.values(data).reverse();
+                
+                posts.forEach(post => {
+                    const card = `
+                        <article class="card">
+                            <img src="${post.foto}" alt="${post.titulli}">
+                            <div class="card-content">
+                                <span class="badge">${post.kategoria}</span>
+                                <h3>${post.titulli}</h3>
+                                <p>${post.pershkrimi.substring(0, 100)}...</p>
+                                <small style="color: #999;">${post.data} | Nga: ${post.autori}</small>
+                            </div>
+                        </article>
+                    `;
+                    newsGrid.innerHTML += card;
+                });
+            } else {
+                newsGrid.innerHTML = "<p>Nuk ka lajme për të shfaqur.</p>";
+            }
+        });
+    </script>
 </body>
 </html>
